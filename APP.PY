@@ -5,10 +5,9 @@ import streamlit as st
 import cv2
 import matplotlib.pyplot as plt
 import zipfile
-
 # Auto-descomprimir las imágenes si existe el archivo zip
-if not os.path.exists("IR_Lab") and os.path.exists("IR_Lab.zip"):
-    with zipfile.ZipFile("IR_Lab.zip", "r") as zip_ref:
+if not os.path.exists("IR_Lab") and os.path.exists("IR LAB.zip"):
+    with zipfile.ZipFile("IR LAB.zip", "r") as zip_ref:
         zip_ref.extractall(".")
 from PIL import Image
 from scipy.signal import find_peaks, savgol_filter
