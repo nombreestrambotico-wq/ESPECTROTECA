@@ -5,10 +5,20 @@ import streamlit as st
 import cv2
 import matplotlib.pyplot as plt
 import zipfile
-# Auto-descomprimir las imágenes si existe el archivo zip
-if not os.path.exists("IR_Lab") and os.path.exists("IR LAB.zip"):
-    with zipfile.ZipFile("IR LAB.zip", "r") as zip_ref:
-        zip_ref.extractall(".")
+
+# Auto-descomprimir las imágenes si existe el ZIP
+if os.path.exists("IR LAB.zip"):
+    # Si la carpeta no existe o está vacía, extraemos las imágenes
+    if not os.path.exists("IR_Lab") or len(os.listdir("IR_Lab")) == 0:
+        try:
+            with zipfile.ZipFile("IR LAB.zip", "r") as zip_ref:
+                zip_ref.extractall(".")
+        except Exception as e:
+            st.warning(f"Aviso al extraer ZIP: {e}")
+
+# Si el zip se descomprimió como "IR LAB" (con espacio), lo renombramos a "IR_Lab"
+if os.path.exists("IR LAB") and not os.path.exists("IR_Lab"):
+    os.rename("IR LAB", "IR_Lab")
 from PIL import Image
 from scipy.signal import find_peaks, savgol_filter
 
@@ -64,6 +74,7 @@ st.markdown("""
         padding: 15px;
         border-radius: 6px;
         margin-bottom: 15px;
+        color: #1e293b !important;
     }
 </style>
 """, unsafe_allow_html=True)
